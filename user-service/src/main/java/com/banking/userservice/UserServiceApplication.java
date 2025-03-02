@@ -1,4 +1,4 @@
-package com.banking.userservice.user_service;
+package com.banking.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
