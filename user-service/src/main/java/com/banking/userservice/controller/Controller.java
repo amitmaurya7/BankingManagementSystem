@@ -16,7 +16,7 @@ import com.banking.userservice.entity.Users;
 import com.banking.userservice.service.UserService;
 
 @RestController
-@RequestMapping("/api/users/")
+@RequestMapping("/users/")
 public class Controller {
 	
 	@Autowired
