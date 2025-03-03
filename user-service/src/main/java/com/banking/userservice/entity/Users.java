@@ -2,6 +2,7 @@ package com.banking.userservice.entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -38,5 +39,5 @@ public class Users {
 	        REJECTED
 	    }
 	    
-	private Timestamp createdAt;
+	private String createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
 }
