@@ -1,5 +1,7 @@
 package com.banking.accountservice.controller;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.banking.accountservice.dto.AccountResponseDto;
 import com.banking.accountservice.entity.Accounts;
 import com.banking.accountservice.entity.Branches;
 import com.banking.accountservice.service.AccountService;
@@ -34,8 +37,8 @@ public class AccountController {
 	}
 	
 	@GetMapping("/{accountId}")
-	public ResponseEntity<Accounts> getAccountById(@PathVariable Long accountId){
-		Accounts accounts = accountService.getAccountById(accountId);
+	public ResponseEntity<AccountResponseDto> getAccountById(@PathVariable Long accountId){
+		AccountResponseDto accounts = accountService.getAccountById(accountId);
 		return new ResponseEntity<>(accounts, HttpStatus.ACCEPTED);
 	}
 }

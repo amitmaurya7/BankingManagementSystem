@@ -31,12 +31,18 @@ public class Controller {
 	@GetMapping("/{userId}")
 	public ResponseEntity<Users> userDetails(@PathVariable Long userId){
 		Users user = userService.userDetails(userId);
-		return new ResponseEntity<>(user, HttpStatus.FOUND);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<String> userLogin(@RequestBody LoginDto loginDto){
 		String message = userService.login(loginDto.getEmail(), loginDto.getPassword());
 		return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/exist/{userId}")
+	public ResponseEntity<Boolean> userExist(@PathVariable Long userId){
+		boolean check = userService.userExist(userId);
+		return new ResponseEntity<>(check, HttpStatus.OK);
 	}
 }

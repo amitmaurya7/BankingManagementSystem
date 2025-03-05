@@ -1,5 +1,9 @@
 package com.banking.userservice.service;
 
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +13,9 @@ import com.banking.userservice.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService  {
+	
+	 private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -32,6 +39,17 @@ public class UserServiceImpl implements UserService  {
 	public Users userDetails(Long id) {
 		Users user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User is not present with id: "+id));
 		return user;
+	}
+
+	@Override
+	public boolean userExist(Long userId) {
+	    Optional<Users> user = userRepository.findById(userId);
+		
+	    logger.info("User >>>" +user.toString());
+		if(user.isPresent()) {
+			return true;
+		}
+		return false;
 	}
 
 }

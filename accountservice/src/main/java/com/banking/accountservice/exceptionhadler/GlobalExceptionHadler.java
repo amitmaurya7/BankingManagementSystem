@@ -12,9 +12,16 @@ public class GlobalExceptionHadler {
 
 	@ExceptionHandler(AccountNotFoundException.class)
 	public ResponseEntity<String> handleAccountNotFoundException(AccountNotFoundException ex, HttpServletRequest request){
-		 if (request.getRequestURI().contains("/swagger") || request.getRequestURI().contains("/v3/api-docs")) {
-	            throw ex;
-	        }
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(BranchNotFoundException.class)
+	public ResponseEntity<String> handleBranchNotFoundException(BranchNotFoundException ex){
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex){
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 }

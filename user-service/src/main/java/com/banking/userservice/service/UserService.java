@@ -10,4 +10,6 @@ public interface UserService {
 	
 	public Users userDetails(Long id);
 	
+	public boolean userExist(Long userId);
+	
 }
