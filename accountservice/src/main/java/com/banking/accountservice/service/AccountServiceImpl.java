@@ -1,7 +1,5 @@
  package com.banking.accountservice.service;
 
-import java.lang.System.Logger;
-
 import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import com.banking.accountservice.exceptionhadler.UserNotFoundException;
 import com.banking.accountservice.repository.AccountRepository;
 import com.banking.accountservice.repository.BranchRepository;
 import com.banking.accountservice.servicecommunication.UserClient;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -25,7 +22,7 @@ public class AccountServiceImpl implements AccountService {
 	private UserClient userClient;
 	
 	@Autowired
-	private AccountRepository accoutAccountRepository;
+	private AccountRepository accountRepository;
 	
 	@Autowired
 	private BranchRepository branchRepository;
@@ -42,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
            Long branchId = account.getBranches().getBranchId();
            Branches branches = branchRepository.getBranchesByBranchId(branchId).orElseThrow(()-> new BranchNotFoundException("Branch with id: "+branchId+" is not present"));
            if(branches != null && isUserPresent) {
-        	   accoutAccountRepository.save(account);
+        	   accountRepository.save(account);
            }
 	}
 
@@ -56,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 	public AccountResponseDto getAccountById(Long accountId){
 		Accounts accounts = null;
 		try {
-			accounts = accoutAccountRepository.getAccountsByAccountId(accountId).orElseThrow(()-> new AccountNotFoundException());
+			accounts = accountRepository.getAccountsByAccountId(accountId).orElseThrow(()-> new AccountNotFoundException());
 		} catch (AccountNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,5 +66,25 @@ public class AccountServiceImpl implements AccountService {
 		UserDetailsDto userDetailsDto = userClient.userDetails(userId);
 		
 		return new AccountResponseDto(userDetailsDto,accounts);
+	}
+
+	@Override
+	public String updateBalance(Long accountId, Long amount, String action) {
+		Accounts accounts = null;
+		try {
+			accounts = accountRepository.getAccountsByAccountId(accountId).orElseThrow(()-> new AccountNotFoundException());
+		} catch (AccountNotFoundException e) {
+			e.printStackTrace();
+		}
+		if(action.equalsIgnoreCase("deposit")) {
+			Long balance = accounts.getBalance() + amount;
+			accounts.setBalance(balance);
+			accountRepository.save(accounts);
+		}else if(action.equalsIgnoreCase("withdraw")) {
+			Long balance = accounts.getBalance() - amount;
+			accounts.setBalance(balance);
+			accountRepository.save(accounts);
+		}
+		return "Amount "+action+" successfully";
 	}
 }
