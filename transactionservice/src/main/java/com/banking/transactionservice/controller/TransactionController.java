@@ -1,8 +1,12 @@
 package com.banking.transactionservice.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +26,11 @@ public class TransactionController {
 	public ResponseEntity<String> transaction(@RequestBody Transactions transactions){
 		transactionService.transaction(transactions);
 		return new ResponseEntity<>("Balance Updated successfully", HttpStatus.OK);
+	}
+	
+	@GetMapping("/history")
+	public ResponseEntity<List<Transactions>> getAllTransactions(){
+		List<Transactions> transactions = transactionService.transactions();
+		return new ResponseEntity<List<Transactions>>(transactions, HttpStatus.OK);
 	}
 }

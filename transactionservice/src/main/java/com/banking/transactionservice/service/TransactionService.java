@@ -7,6 +7,5 @@ import com.banking.transactionservice.entity.Transactions;
 public interface TransactionService {
 
 	public String transaction(Transactions transactions);
-	public String withdraw(Long amount, Long accountId);
-	public List<Transactions> transactions(Long txnId);
+	public List<Transactions> transactions();
 }
