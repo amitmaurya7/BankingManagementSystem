@@ -15,7 +15,7 @@
         <module>discoveryservice</module>
         <module>reportingservice</module>
         <module>transactionservice</module>
-        <!--<module>userservice</module>-->
+       <module>userservice</module>
     </modules>
 
     <properties>
