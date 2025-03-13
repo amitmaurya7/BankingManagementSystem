@@ -14,7 +14,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import com.banking.transactionservice.transactiondto.NotificationEvent;
+import model.NotificationEvent;
+
+
 
 @Configuration
 @EnableKafka

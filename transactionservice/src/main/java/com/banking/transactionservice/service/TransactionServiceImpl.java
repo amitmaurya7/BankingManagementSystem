@@ -10,8 +10,9 @@ import com.banking.transactionservice.entity.Transactions;
 import com.banking.transactionservice.repository.TransactionRepository;
 import com.banking.transactionservice.servicecommunication.AccountClient;
 import com.banking.transactionservice.transactiondto.BalanceUpdateDto;
-import com.banking.transactionservice.transactiondto.NotificationEvent;
-import com.banking.transactionservice.transactiondto.NotificationEvent.NotificationType;
+
+import model.NotificationEvent;
+import model.NotificationEvent.NotificationType;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
