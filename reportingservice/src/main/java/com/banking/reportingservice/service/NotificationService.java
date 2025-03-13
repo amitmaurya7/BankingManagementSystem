@@ -1,34 +1,31 @@
 package com.banking.reportingservice.service;
 
-
 import lombok.extern.slf4j.Slf4j;
+import model.NotificationEvent;
+import model.NotificationEvent.NotificationType;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.banking.reportingservice.dto.NotificationEvent;
-import com.banking.reportingservice.dto.NotificationEvent.NotificationType;
-
 @Service
 @Slf4j
 public class NotificationService {
 
-private final JavaMailSender mailSender = null;
-//    private final TwilioSmsService twilioSmsService;
+	@Autowired
+    private JavaMailSender mailSender;
 
     @KafkaListener(topics = "notification-topic", groupId = "notification-group")
     public void handleNotification(NotificationEvent event) {
-        log.info("Received Notification Event for user {}", event.getUserId());
-
-        // Fetch user details from User Service
-//        UserResponse user = userClient.getUserDetails(event.getUserId());
+        log.info("Received Notification Event: {}", event.toString());
 
         try {
             if (event.getType() == NotificationType.EMAIL) {
                 sendEmail("amitmauryass163@gmail.com", event.getMessage());
             } else if (event.getType() == NotificationType.SMS) {
-//                sendSms(user.getPhone(), event.getMessage());
+                // sendSms(user.getPhone(), event.getMessage()); // Uncomment if Twilio is configured
             }
             log.info("Notification sent successfully!");
         } catch (Exception e) {
@@ -37,16 +34,25 @@ private final JavaMailSender mailSender = null;
     }
 
     private void sendEmail(String email, String message) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(email);
-        mailMessage.setSubject("Transaction Alert");
-        mailMessage.setText(message);
-        mailSender.send(mailMessage);
-        log.info("Email sent to {}", email);
+        try {
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setFrom("springboot567@gmail.com");
+            mailMessage.setTo(email);
+            mailMessage.setSubject("Transaction Alert");
+            mailMessage.setText(message);
+            mailSender.send(mailMessage);
+            log.info("Email sent to {}", email);
+        } catch (Exception e) {
+            log.error("Failed to send email to {}: {}", email, e.getMessage());
+        }
     }
 
     private void sendSms(String phone, String message) {
-//        twilioSmsService.sendSms(phone, message);
-        log.info("SMS sent to {}", phone);
+        try {
+            // twilioSmsService.sendSms(phone, message); // Uncomment if Twilio is configured
+            log.info("SMS sent to {}", phone);
+        } catch (Exception e) {
+            log.error("Failed to send SMS to {}: {}", phone, e.getMessage());
+        }
     }
 }
