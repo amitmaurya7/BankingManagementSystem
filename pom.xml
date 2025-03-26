@@ -13,9 +13,10 @@
         <module>accountservice</module>
         <module>apigateway</module>
         <module>discoveryservice</module>
-        <module>reportingservice</module>
+        <module>notificationservice</module>
         <module>transactionservice</module>
        <module>userservice</module>
+       <module>reportingservice</module>
     </modules>
 
     <properties>
