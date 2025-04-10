@@ -1,4 +1,4 @@
-package com.banking.reportingservice.service;
+package com.banking.notification.service;
 
 import lombok.extern.slf4j.Slf4j;
 import model.NotificationEvent;
